@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\API\ItemsSwaggerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,6 +19,7 @@ Route::apiResource('items', ItemController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('transaction', TransactionController::class);
 Route::apiResource('categoryswagger', CategorySwaggerController::class);
+Route::apiResource('itemsswagger', ItemsSwaggerController::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +36,7 @@ Route::group( [], function () {
     Route::get('category', [CategorySwaggerController::class, 'listCategory']);
 });
 
+
+Route::group([], function () {
+    Route::get('items', [ItemsSwaggerController::class, 'listItem']);
+});
