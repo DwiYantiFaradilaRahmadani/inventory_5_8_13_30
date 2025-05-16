@@ -20,18 +20,23 @@ class ItemsSwaggerController extends Controller
      *             @OA\Property(property="status", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="Items retrieved successfully."),
      *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="category_id", type="integer", example=2),
-     *                     @OA\Property(property="Nama_Barang", type="string", example="Laptop"),
-     *                     @OA\Property(property="Stock", type="integer", example=50),
-     *                     @OA\Property(property="Satuan", type="string", example="Unit")
-     *                 )
+     *                 @OA\Items(ref="#/components/schemas/Item")  <!-- Referensi schema Item -->
      *             )
      *         )
      *     )
      * )
      */
+    /**
+ * @OA\Schema(
+ *     schema="Item",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="category_id", type="integer", example=2),
+ *     @OA\Property(property="Nama_Barang", type="string", example="Laptop"),
+ *     @OA\Property(property="Stock", type="integer", example=50),
+ *     @OA\Property(property="Satuan", type="string", example="Unit")
+ * )
+ */
     public function index()
     {
         $items = Item::all();

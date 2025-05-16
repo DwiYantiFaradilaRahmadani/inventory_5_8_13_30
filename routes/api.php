@@ -9,6 +9,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\API\ItemsSwaggerController;
+use App\Http\Controllers\API\TransactionSwaggerController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -20,6 +22,7 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('transaction', TransactionController::class);
 Route::apiResource('categoryswagger', CategorySwaggerController::class);
 Route::apiResource('itemsswagger', ItemsSwaggerController::class);
+Route::apiResource('transactionsswagger', TransactionSwaggerController::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -35,8 +38,13 @@ Route::apiResource('itemsswagger', ItemsSwaggerController::class);
 Route::group( [], function () {
     Route::get('category', [CategorySwaggerController::class, 'listCategory']);
 });
-
-
-Route::group([], function () {
-    Route::get('items', [ItemsSwaggerController::class, 'listItem']);
+Route::group( [], function () {
+    Route::get('item', [ItemsSwaggerController::class, 'listitem']);
 });
+
+Route::get('items-swagger', [ItemsSwaggerController::class, 'index']);
+Route::post('items-swagger', [ItemsSwaggerController::class, 'store']);
+Route::get('items-swagger/{id}', [ItemsSwaggerController::class, 'show']);
+Route::put('items-swagger/{id}', [ItemsSwaggerController::class, 'update']);
+Route::delete('items-swagger/{id}', [ItemsSwaggerController::class, 'destroy']);
+
