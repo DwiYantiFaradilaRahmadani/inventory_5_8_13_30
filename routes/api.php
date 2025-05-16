@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\API\ItemsSwaggerController;
 use App\Http\Controllers\API\TransactionSwaggerController;
+use App\Http\Controllers\UserSwaggerController;
 
 
 Route::get('/user', function (Request $request) {
@@ -53,3 +54,10 @@ Route::post('transactions-swagger', [TransactionSwaggerController::class, 'store
 Route::get('transactions-swagger/{id}', [TransactionSwaggerController::class, 'show']);
 Route::put('transactions-swagger/{id}', [TransactionSwaggerController::class, 'update']);
 Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class, 'destroy']);
+
+
+Route::get('users-swagger', [UserController::class, 'index']);
+Route::post('users-swagger', [UserController::class, 'store']);
+Route::get('users-swagger/{id}', [UserController::class, 'show']);
+Route::put('users-swagger/{id}', [UserController::class, 'update']);
+Route::delete('users-swagger/{id}', [UserController::class, 'destroy']);
