@@ -48,3 +48,8 @@ Route::get('items-swagger/{id}', [ItemsSwaggerController::class, 'show']);
 Route::put('items-swagger/{id}', [ItemsSwaggerController::class, 'update']);
 Route::delete('items-swagger/{id}', [ItemsSwaggerController::class, 'destroy']);
 
+Route::get('transactions-swagger', [TransactionSwaggerController::class, 'index']);
+Route::post('transactions-swagger', [TransactionSwaggerController::class, 'store']);
+Route::get('transactions-swagger/{id}', [TransactionSwaggerController::class, 'show']);
+Route::put('transactions-swagger/{id}', [TransactionSwaggerController::class, 'update']);
+Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class, 'destroy']);
