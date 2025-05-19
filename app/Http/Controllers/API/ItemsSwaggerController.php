@@ -6,6 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Item;
 
+/**
+ * @OA\Schema(
+ *     schema="Item",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="category_id", type="integer", example=2),
+ *     @OA\Property(property="Nama_Barang", type="string", example="Laptop"),
+ *     @OA\Property(property="Stock", type="integer", example=50),
+ *     @OA\Property(property="Satuan", type="string", example="Unit")
+ * )
+ */
 class ItemsSwaggerController extends Controller
 {
     /**
@@ -20,23 +31,12 @@ class ItemsSwaggerController extends Controller
      *             @OA\Property(property="status", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="Items retrieved successfully."),
      *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(ref="#/components/schemas/Item")  <!-- Referensi schema Item -->
+     *                 @OA\Items(ref="#/components/schemas/Item")
      *             )
      *         )
      *     )
      * )
      */
-    /**
- * @OA\Schema(
- *     schema="Item",
- *     type="object",
- *     @OA\Property(property="id", type="integer", example=1),
- *     @OA\Property(property="category_id", type="integer", example=2),
- *     @OA\Property(property="Nama_Barang", type="string", example="Laptop"),
- *     @OA\Property(property="Stock", type="integer", example=50),
- *     @OA\Property(property="Satuan", type="string", example="Unit")
- * )
- */
     public function index()
     {
         $items = Item::all();
@@ -69,13 +69,7 @@ class ItemsSwaggerController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="integer", example=201),
      *             @OA\Property(property="message", type="string", example="Item created successfully."),
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="category_id", type="integer", example=1),
-     *                 @OA\Property(property="Nama_Barang", type="string", example="Laptop"),
-     *                 @OA\Property(property="Stock", type="integer", example=50),
-     *                 @OA\Property(property="Satuan", type="string", example="Unit")
-     *             )
+     *             @OA\Property(property="data", ref="#/components/schemas/Item")
      *         )
      *     )
      * )
@@ -115,13 +109,7 @@ class ItemsSwaggerController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="Item retrieved successfully."),
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="category_id", type="integer", example=2),
-     *                 @OA\Property(property="Nama_Barang", type="string", example="Laptop"),
-     *                 @OA\Property(property="Stock", type="integer", example=50),
-     *                 @OA\Property(property="Satuan", type="string", example="Unit")
-     *             )
+     *             @OA\Property(property="data", ref="#/components/schemas/Item")
      *         )
      *     ),
      *     @OA\Response(response=404, description="Item not found")
@@ -172,13 +160,7 @@ class ItemsSwaggerController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="integer", example=200),
      *             @OA\Property(property="message", type="string", example="Item updated successfully."),
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="category_id", type="integer", example=2),
-     *                 @OA\Property(property="Nama_Barang", type="string", example="Updated Laptop"),
-     *                 @OA\Property(property="Stock", type="integer", example=60),
-     *                 @OA\Property(property="Satuan", type="string", example="Piece")
-     *             )
+     *             @OA\Property(property="data", ref="#/components/schemas/Item")
      *         )
      *     ),
      *     @OA\Response(response=404, description="Item not found")

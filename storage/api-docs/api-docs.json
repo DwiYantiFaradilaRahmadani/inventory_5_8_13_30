@@ -302,6 +302,41 @@
             }
         },
         "/item": {
+            "get": {
+                "tags": [
+                    "Item"
+                ],
+                "summary": "Get all items",
+                "operationId": "f19b7dc62e5b6fbb07ac4bacae6b6b0d",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Items retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Item"
@@ -358,29 +393,7 @@
                                             "example": "Item created successfully."
                                         },
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "category_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "Nama_Barang": {
-                                                    "type": "string",
-                                                    "example": "Laptop"
-                                                },
-                                                "Stock": {
-                                                    "type": "integer",
-                                                    "example": 50
-                                                },
-                                                "Satuan": {
-                                                    "type": "string",
-                                                    "example": "Unit"
-                                                }
-                                            },
-                                            "type": "object"
+                                            "$ref": "#/components/schemas/Item"
                                         }
                                     },
                                     "type": "object"
@@ -424,29 +437,7 @@
                                             "example": "Item retrieved successfully."
                                         },
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "category_id": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "Nama_Barang": {
-                                                    "type": "string",
-                                                    "example": "Laptop"
-                                                },
-                                                "Stock": {
-                                                    "type": "integer",
-                                                    "example": 50
-                                                },
-                                                "Satuan": {
-                                                    "type": "string",
-                                                    "example": "Unit"
-                                                }
-                                            },
-                                            "type": "object"
+                                            "$ref": "#/components/schemas/Item"
                                         }
                                     },
                                     "type": "object"
@@ -519,29 +510,7 @@
                                             "example": "Item updated successfully."
                                         },
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "category_id": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "Nama_Barang": {
-                                                    "type": "string",
-                                                    "example": "Updated Laptop"
-                                                },
-                                                "Stock": {
-                                                    "type": "integer",
-                                                    "example": 60
-                                                },
-                                                "Satuan": {
-                                                    "type": "string",
-                                                    "example": "Piece"
-                                                }
-                                            },
-                                            "type": "object"
+                                            "$ref": "#/components/schemas/Item"
                                         }
                                     },
                                     "type": "object"
@@ -600,239 +569,6 @@
                     }
                 }
             }
-        },
-        "/transaction": {
-            "post": {
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "Create a new transaction",
-                "operationId": "4d5a796e058ca051c85aaebee4948353",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "item_id",
-                                    "user_id",
-                                    "nama_barang",
-                                    "tanggal_transaksi",
-                                    "tipe_transaksi",
-                                    "jumlah"
-                                ],
-                                "properties": {
-                                    "item_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "user_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "nama_barang": {
-                                        "type": "string",
-                                        "example": "Laptop"
-                                    },
-                                    "tanggal_transaksi": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-05-01"
-                                    },
-                                    "tipe_transaksi": {
-                                        "type": "string",
-                                        "enum": [
-                                            "masuk",
-                                            "keluar"
-                                        ],
-                                        "example": "masuk"
-                                    },
-                                    "jumlah": {
-                                        "type": "integer",
-                                        "example": 10
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Transaction created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Transaksi berhasil dibuat."
-                                        },
-                                        "transaction": {
-                                            "$ref": "#/components/schemas/Transaction"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/transaction/{id}": {
-            "get": {
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "Get transaction by ID",
-                "operationId": "a84511b7334ae00e9395366416ea4ba5",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Transaction found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Transaction"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Transaction not found"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "Update transaction by ID",
-                "operationId": "dc49eb4c471e032a993585315e32fff8",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "item_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "user_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "nama_barang": {
-                                        "type": "string",
-                                        "example": "Laptop Baru"
-                                    },
-                                    "tanggal_transaksi": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-05-02"
-                                    },
-                                    "tipe_transaksi": {
-                                        "type": "string",
-                                        "enum": [
-                                            "masuk",
-                                            "keluar"
-                                        ],
-                                        "example": "keluar"
-                                    },
-                                    "jumlah": {
-                                        "type": "integer",
-                                        "example": 5
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Transaction updated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Transaksi berhasil diperbarui."
-                                        },
-                                        "transaction": {
-                                            "$ref": "#/components/schemas/Transaction"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Transaction not found"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "Delete transaction by ID",
-                "operationId": "d56ec9b880a63914c1c19614db8b6dea",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Transaction deleted",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Transaksi berhasil dihapus"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Transaction not found"
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -861,44 +597,6 @@
                     }
                 },
                 "type": "object"
-            },
-            "Transaction": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "item_id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "user_id": {
-                        "type": "integer",
-                        "example": 2
-                    },
-                    "nama_barang": {
-                        "type": "string",
-                        "example": "Laptop"
-                    },
-                    "tanggal_transaksi": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2024-05-01"
-                    },
-                    "tipe_transaksi": {
-                        "type": "string",
-                        "enum": [
-                            "masuk",
-                            "keluar"
-                        ],
-                        "example": "masuk"
-                    },
-                    "jumlah": {
-                        "type": "integer",
-                        "example": 10
-                    }
-                },
-                "type": "object"
             }
         }
     },
@@ -910,10 +608,6 @@
         {
             "name": "Item",
             "description": "Item"
-        },
-        {
-            "name": "Transaction",
-            "description": "Transaction"
         }
     ]
 }
