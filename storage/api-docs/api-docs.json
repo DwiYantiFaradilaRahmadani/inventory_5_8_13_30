@@ -569,8 +569,57 @@
                     }
                 }
             }
-<<<<<<< HEAD
-=======
+        },
+        "/item/search": {
+            "get": {
+                "tags": [
+                    "Item"
+                ],
+                "summary": "Search items by name",
+                "operationId": "141d53ad6eeaf81a4909fa3f164bde54",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query for Nama_Barang",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Search results retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Item"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Search query is required"
+                    }
+                }
+            }
         },
         "/transaction": {
             "post": {
@@ -1022,7 +1071,6 @@
                     }
                 }
             }
->>>>>>> 9394eabd8a7b0e88403e231ebd0bca3807e4aadd
         }
     },
     "components": {
@@ -1051,8 +1099,6 @@
                     }
                 },
                 "type": "object"
-<<<<<<< HEAD
-=======
             },
             "Transaction": {
                 "properties": {
@@ -1125,7 +1171,6 @@
                     }
                 },
                 "type": "object"
->>>>>>> 9394eabd8a7b0e88403e231ebd0bca3807e4aadd
             }
         }
     },
@@ -1137,8 +1182,6 @@
         {
             "name": "Item",
             "description": "Item"
-<<<<<<< HEAD
-=======
         },
         {
             "name": "Transaction",
@@ -1147,7 +1190,6 @@
         {
             "name": "Users",
             "description": "Users"
->>>>>>> 9394eabd8a7b0e88403e231ebd0bca3807e4aadd
         }
     ]
 }

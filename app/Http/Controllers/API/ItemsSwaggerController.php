@@ -237,4 +237,51 @@ class ItemsSwaggerController extends Controller
             'data' => null
         ], 200);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/item/search",
+     *     tags={"Item"},
+     *     summary="Search items by name",
+     *     @OA\Parameter(
+     *         name="q",
+     *         in="query",
+     *         required=true,
+     *         description="Search query for Nama_Barang",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Search results retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Search results retrieved successfully."),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/Item")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Search query is required")
+     * )
+     */
+    public function search(Request $request)
+    {
+        $query = $request->query('q');
+
+        if (!$query) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Search query is required.',
+                'data' => []
+            ], 400);
+        }
+
+        $items = Item::where('Nama_Barang', 'like', '%' . $query . '%')->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Search results retrieved successfully.',
+            'data' => $items
+        ], 200);
+    }
 }

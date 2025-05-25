@@ -43,6 +43,9 @@ Route::group( [], function () {
     Route::get('item', [ItemsSwaggerController::class, 'listitem']);
 });
 
+Route::get('/item/search', [ItemsSwaggerController::class, 'search']);
+
+
 Route::get('items-swagger', [ItemsSwaggerController::class, 'index']);
 Route::post('items-swagger', [ItemsSwaggerController::class, 'store']);
 Route::get('items-swagger/{id}', [ItemsSwaggerController::class, 'show']);
