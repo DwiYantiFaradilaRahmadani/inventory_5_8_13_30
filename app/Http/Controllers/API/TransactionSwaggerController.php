@@ -11,29 +11,6 @@ use Illuminate\Database\QueryException;
 class TransactionSwaggerController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/transaction",
-     *     tags={"Transaction"},
-     *     summary="Get all transactions",
-     *     @OA\Response(
-     *         response=200,
-     *         description="List of transactions",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Transaction"))
-     *     )
-     * )
-     */
-    /**
- * @OA\Schema(
- *     schema="Transaction",
- *     type="object",
- *     @OA\Property(property="id", type="integer", example=1),
- *     @OA\Property(property="item_id", type="integer", example=2),
- *     @OA\Property(property="quantity", type="integer", example=5),
- *     @OA\Property(property="total_price", type="number", format="float", example=500),
- *     @OA\Property(property="status", type="string", example="Completed")
- * )
- */
-/**
  * @OA\Schema(
  *     schema="Transaction",
  *     type="object",
@@ -47,9 +24,71 @@ class TransactionSwaggerController extends Controller
  * )
  */
 
+    /**
+     * @OA\Get(
+     *     path="/transaction",
+     *     tags={"Transaction"},
+     *     summary="Get all transactions",
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of transactions",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Transaction"))
+     *     )
+     * )
+     */
+    /**
+     * @OA\Schema(
+     *     schema="Transaction",
+     *     type="object",
+     *     @OA\Property(property="id", type="integer", example=1),
+     *     @OA\Property(property="item_id", type="integer", example=1),
+     *     @OA\Property(property="user_id", type="integer", example=2),
+     *     @OA\Property(property="nama_barang", type="string", example="Laptop"),
+     *     @OA\Property(property="tanggal_transaksi", type="string", format="date", example="2024-05-01"),
+     *     @OA\Property(property="tipe_transaksi", type="string", enum={"masuk", "keluar"}, example="masuk"),
+     *     @OA\Property(property="jumlah", type="integer", example=10)
+     * )
+     */
+
     public function index()
     {
         $transactions = Transaction::with(['item', 'user'])->get();
+        return response()->json($transactions, 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/transaction/user/{user_id}",
+     *     tags={"Transaction"},
+     *     summary="Get transactions by user ID",
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of transactions by user",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Transaction"))
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found or no transactions"
+     *     )
+     * )
+     */
+    public function getByUser($user_id)
+    {
+        $transactions = Transaction::with(['item', 'user'])
+            ->where('user_id', $user_id)
+            ->get();
+
+        if ($transactions->isEmpty()) {
+            return response()->json(['message' => 'Transaksi tidak ditemukan untuk user ini.'], 404);
+        }
+
         return response()->json($transactions, 200);
     }
 

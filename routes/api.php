@@ -57,7 +57,7 @@ Route::post('transactions-swagger', [TransactionSwaggerController::class, 'store
 Route::get('transactions-swagger/{id}', [TransactionSwaggerController::class, 'show']);
 Route::put('transactions-swagger/{id}', [TransactionSwaggerController::class, 'update']);
 Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class, 'destroy']);
-
+Route::get('/transaction/user/{user_id}', [TransactionSwaggerController::class, 'getByUser']);
 
 Route::get('users-swagger', [UserController::class, 'index']);
 Route::post('users-swagger', [UserController::class, 'store']);
@@ -67,3 +67,4 @@ Route::delete('users-swagger/{id}', [UserController::class, 'destroy']);
 Route::get('/users/search', [UserSwaggerController::class, 'search']);
 
 // check auth
+//nambahin aja
