@@ -24,19 +24,8 @@
                 "tags": [
                     "Category"
                 ],
-                "summary": "Get all categories or search by name",
+                "summary": "Get all categories",
                 "operationId": "5a903d99b7e76225880d6ecc09e4d7fa",
-                "parameters": [
-                    {
-                        "name": "search",
-                        "in": "query",
-                        "description": "Search category by name",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",

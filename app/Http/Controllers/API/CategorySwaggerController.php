@@ -9,47 +9,36 @@ use App\Models\Category;
 class CategorySwaggerController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/category",
-     *     tags={"Category"},
-     *     summary="Get all categories or search by name",
-     *     @OA\Parameter(
-     *         name="search",
-     *         in="query",
-     *         description="Search category by name",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example=200),
-     *             @OA\Property(property="message", type="string", example="Categories retrieved successfully."),
-     *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Fiction")
-     *                 )
-     *             )
-     *         )
-     *     )
-     * )
-     */
-    public function index(Request $request)
-    {
-        $search = $request->query('search');
+ * @OA\Get(
+ *     path="/category",
+ *     tags={"Category"},
+ *     summary="Get all categories",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="integer", example=200),
+ *             @OA\Property(property="message", type="string", example="Categories retrieved successfully."),
+ *             @OA\Property(property="data", type="array",
+ *                 @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Fiction")
+ *                 )
+ *             )
+ *         )
+ *     )
+ * )
+ */
+public function index()
+{
+    $categories = Category::all();
 
-        $categories = $search
-            ? Category::where('name', 'like', "%{$search}%")->get()
-            : Category::all();
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Categories retrieved successfully.',
-            'data' => $categories
-        ], 200);
-    }
+    return response()->json([
+        'status' => 200,
+        'message' => 'Categories retrieved successfully.',
+        'data' => $categories
+    ], 200);
+}
 
     /**
      * @OA\Post(
