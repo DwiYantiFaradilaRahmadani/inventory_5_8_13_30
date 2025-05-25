@@ -92,4 +92,25 @@ class CategoryController extends Controller
             'data' => null
         ], 200);
     }
+
+    public function search(Request $request)
+    {
+    $name = $request->query('name');
+
+    if (!$name) {
+        return response()->json([
+            'status' => 400,
+            'message' => 'Name query parameter is required.',
+            'data' => null
+        ], 400);
+    }
+
+    $categories = Category::where('name', 'like', '%' . $name . '%')->get();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Categories retrieved successfully.',
+        'data' => $categories
+    ], 200);
+    }
 }

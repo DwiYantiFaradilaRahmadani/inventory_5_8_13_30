@@ -24,8 +24,19 @@
                 "tags": [
                     "Category"
                 ],
-                "summary": "Get all categories",
+                "summary": "Get all categories or search by name",
                 "operationId": "5a903d99b7e76225880d6ecc09e4d7fa",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search category by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -297,6 +308,67 @@
                     },
                     "404": {
                         "description": "Category not found"
+                    }
+                }
+            }
+        },
+        "/category/search": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Search categories by name",
+                "operationId": "e51554e4a61dd70538764a077466642f",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query for category name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Search results retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Fiction"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Search query is required"
                     }
                 }
             }
