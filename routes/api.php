@@ -39,18 +39,16 @@ Route::apiResource('transactionsswagger', TransactionSwaggerController::class);
 Route::group( [], function () {
     Route::get('category', [CategorySwaggerController::class, 'listCategory']);
 });
-Route::group( [], function () {
-    Route::get('item', [ItemsSwaggerController::class, 'listitem']);
-});
 
+
+
+
+Route::get('/item', [ItemsSwaggerController::class, 'index']);
+Route::post('/item', [ItemsSwaggerController::class, 'store']);
+Route::get('/item/{id}', [ItemsSwaggerController::class, 'show']);
+Route::put('/item/{id}', [ItemsSwaggerController::class, 'update']);
+Route::delete('/item/{id}', [ItemsSwaggerController::class, 'destroy']);
 Route::get('/item/search', [ItemsSwaggerController::class, 'search']);
-
-
-Route::get('items-swagger', [ItemsSwaggerController::class, 'index']);
-Route::post('items-swagger', [ItemsSwaggerController::class, 'store']);
-Route::get('items-swagger/{id}', [ItemsSwaggerController::class, 'show']);
-Route::put('items-swagger/{id}', [ItemsSwaggerController::class, 'update']);
-Route::delete('items-swagger/{id}', [ItemsSwaggerController::class, 'destroy']);
 
 Route::get('transactions-swagger', [TransactionSwaggerController::class, 'index']);
 Route::post('transactions-swagger', [TransactionSwaggerController::class, 'store']);
