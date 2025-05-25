@@ -64,6 +64,6 @@ Route::post('users-swagger', [UserController::class, 'store']);
 Route::get('users-swagger/{id}', [UserController::class, 'show']);
 Route::put('users-swagger/{id}', [UserController::class, 'update']);
 Route::delete('users-swagger/{id}', [UserController::class, 'destroy']);
-
+Route::get('/users/search', [UserSwaggerController::class, 'search']);
 
 // check auth
