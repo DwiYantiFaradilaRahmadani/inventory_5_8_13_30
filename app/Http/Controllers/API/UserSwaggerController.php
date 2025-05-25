@@ -178,4 +178,42 @@ class UserSwaggerController extends Controller
         $user->delete();
         return response()->json(['message' => 'User berhasil dihapus'], 200);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/users/search",
+     *     tags={"Users"},
+     *     summary="Search users by name or email",
+     *     @OA\Parameter(
+     *         name="query",
+     *         in="query",
+     *         required=true,
+     *         description="Search term for name or email",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of users matching the search",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User"))
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Query parameter is required"
+     *     )
+     * )
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        if (!$query) {
+            return response()->json(['message' => 'Parameter query diperlukan.'], 400);
+        }
+
+        $users = User::where('name', 'like', '%' . $query . '%')
+            ->orWhere('email', 'like', '%' . $query . '%')
+            ->get();
+
+        return response()->json($users, 200);
+    }
 }

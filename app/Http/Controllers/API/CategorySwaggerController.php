@@ -9,36 +9,36 @@ use App\Models\Category;
 class CategorySwaggerController extends Controller
 {
     /**
-     * @OA\Get(
-     *     path="/category",
-     *     tags={"Category"},
-     *     summary="Get all categories",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example=200),
-     *             @OA\Property(property="message", type="string", example="Categories retrieved successfully."),
-     *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Fiction")
-     *                 )
-     *             )
-     *         )
-     *     )
-     * )
-     */
-    public function index()
-    {
-        $categories = Category::all();
+ * @OA\Get(
+ *     path="/category",
+ *     tags={"Category"},
+ *     summary="Get all categories",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="integer", example=200),
+ *             @OA\Property(property="message", type="string", example="Categories retrieved successfully."),
+ *             @OA\Property(property="data", type="array",
+ *                 @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Fiction")
+ *                 )
+ *             )
+ *         )
+ *     )
+ * )
+ */
+public function index()
+{
+    $categories = Category::all();
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Categories retrieved successfully.',
-            'data' => $categories
-        ], 200);
-    }
+    return response()->json([
+        'status' => 200,
+        'message' => 'Categories retrieved successfully.',
+        'data' => $categories
+    ], 200);
+}
 
     /**
      * @OA\Post(
@@ -221,4 +221,56 @@ class CategorySwaggerController extends Controller
             'data' => null
         ], 200);
     }
+    /**
+ * @OA\Get(
+ *     path="/category/search",
+ *     tags={"Category"},
+ *     summary="Search categories by name",
+ *     @OA\Parameter(
+ *         name="q",
+ *         in="query",
+ *         required=true,
+ *         description="Search query for category name",
+ *         @OA\Schema(type="string")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Search results retrieved successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="integer", example=200),
+ *             @OA\Property(property="message", type="string", example="Search results retrieved successfully."),
+ *             @OA\Property(property="data", type="array",
+ *                 @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Fiction")
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(response=400, description="Search query is required")
+ * )
+ */
+public function search(Request $request)
+{
+    $query = $request->query('q');
+
+    if (!$query) {
+        return response()->json([
+            'status' => 400,
+            'message' => 'Search query is required.',
+            'data' => []
+        ], 400);
+    }
+
+    $categories = Category::where('name', 'like', '%' . $query . '%')->get();
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Search results retrieved successfully.',
+        'data' => $categories
+    ], 200);
 }
+
+}
+
+
