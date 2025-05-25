@@ -24,7 +24,7 @@ class UserSwaggerController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/users",
+     *     path="/users",
      *     tags={"Users"},
      *     summary="Get all users",
      *     @OA\Response(
@@ -41,7 +41,7 @@ class UserSwaggerController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users",
+     *     path="/users",
      *     tags={"Users"},
      *     summary="Create a new user",
      *     @OA\RequestBody(
@@ -92,7 +92,7 @@ class UserSwaggerController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/{id}",
+     *     path="/users/{id}",
      *     tags={"Users"},
      *     summary="Get user by ID",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -112,7 +112,7 @@ class UserSwaggerController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/users/{id}",
+     *     path="/users/{id}",
      *     tags={"Users"},
      *     summary="Update user by ID",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -156,7 +156,7 @@ class UserSwaggerController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/users/{id}",
+     *     path="/users/{id}",
      *     tags={"Users"},
      *     summary="Delete user by ID",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -181,7 +181,7 @@ class UserSwaggerController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/search",
+     *     path="/users/search",
      *     tags={"Users"},
      *     summary="Search users by name or email",
      *     @OA\Parameter(

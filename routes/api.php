@@ -57,11 +57,11 @@ Route::put('transactions-swagger/{id}', [TransactionSwaggerController::class, 'u
 Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class, 'destroy']);
 Route::get('/transaction/user/{user_id}', [TransactionSwaggerController::class, 'getByUser']);
 
-Route::get('users-swagger', [UserController::class, 'index']);
-Route::post('users-swagger', [UserController::class, 'store']);
-Route::get('users-swagger/{id}', [UserController::class, 'show']);
-Route::put('users-swagger/{id}', [UserController::class, 'update']);
-Route::delete('users-swagger/{id}', [UserController::class, 'destroy']);
+Route::get('users-swagger', [UserSwaggerController::class, 'index']);
+Route::post('users-swagger', [UserSwaggerController::class, 'store']);
+Route::get('users-swagger/{id}', [UserSwaggerController::class, 'show']);
+Route::put('users-swagger/{id}', [UserSwaggerController::class, 'update']);
+Route::delete('users-swagger/{id}', [UserSwaggerController::class, 'destroy']);
 Route::get('/users/search', [UserSwaggerController::class, 'search']);
 
 // check auth

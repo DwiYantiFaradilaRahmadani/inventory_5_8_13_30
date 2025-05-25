@@ -953,13 +953,13 @@
                 }
             }
         },
-        "/api/users": {
+        "/users": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get all users",
-                "operationId": "71f756877bb01920816eea67008db3ae",
+                "operationId": "f290d11bd8e112f77455e3e869e1d536",
                 "responses": {
                     "200": {
                         "description": "List of users",
@@ -981,7 +981,7 @@
                     "Users"
                 ],
                 "summary": "Create a new user",
-                "operationId": "daa45738c198fb45ee369663e327ca84",
+                "operationId": "5ca32c6a9f461b3533a68534dc262996",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1034,13 +1034,13 @@
                 }
             }
         },
-        "/api/users/{id}": {
+        "/users/{id}": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Get user by ID",
-                "operationId": "d920ee95c5573d49b5b24ba186ad8329",
+                "operationId": "cab362aca304f6cb2dcc450a563f360d",
                 "parameters": [
                     {
                         "name": "id",
@@ -1072,7 +1072,7 @@
                     "Users"
                 ],
                 "summary": "Update user by ID",
-                "operationId": "863de137f87fbd16dc8a0e2a797af50f",
+                "operationId": "7a0a68372816b2b31980009f689ce88d",
                 "parameters": [
                     {
                         "name": "id",
@@ -1137,7 +1137,7 @@
                     "Users"
                 ],
                 "summary": "Delete user by ID",
-                "operationId": "78fde717c9457870819166a1855d2721",
+                "operationId": "3d69178f1d7fa2c07f0029ea3e263e7e",
                 "parameters": [
                     {
                         "name": "id",
@@ -1171,13 +1171,13 @@
                 }
             }
         },
-        "/api/users/search": {
+        "/users/search": {
             "get": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Search users by name or email",
-                "operationId": "950d4a06877f7227ca7beeb96ba86eda",
+                "operationId": "ec4785b6e9c3902e04e1fbb881444ea2",
                 "parameters": [
                     {
                         "name": "query",
