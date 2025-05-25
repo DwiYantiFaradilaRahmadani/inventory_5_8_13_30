@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category; 
 
 class Item extends Model
 {
@@ -11,11 +12,10 @@ class Item extends Model
         'Nama_Barang',
         'Stock',
         'Satuan'
-
-];
+    ];
 
     public function category()
-{
-    return $this->belongsTo(Category::class, 'category_id');
-}
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }
