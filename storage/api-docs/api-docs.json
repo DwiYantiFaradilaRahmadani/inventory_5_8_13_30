@@ -721,6 +721,28 @@
             }
         },
         "/transaction": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get all transactions",
+                "operationId": "349402c322662d27133bbbb92184c1d1",
+                "responses": {
+                    "200": {
+                        "description": "List of transactions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Transaction"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Transaction"

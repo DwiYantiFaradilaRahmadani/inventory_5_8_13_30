@@ -298,4 +298,22 @@ class TransactionSwaggerController extends Controller
 
         return response()->json(['message' => 'Transaksi berhasil dihapus'], 200);
     }
+    /**
+ * @OA\Get(
+ *     path="/transaction",
+ *     tags={"Transaction"},
+ *     summary="Get all transactions",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of transactions",
+ *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Transaction"))
+ *     )
+ * )
+ */
+public function getAllData()
+{
+    $transactions = Transaction::with(['item', 'user'])->get();
+    return response()->json($transactions, 200);
+}
+
 }

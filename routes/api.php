@@ -10,7 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\API\ItemsSwaggerController;
 use App\Http\Controllers\API\TransactionSwaggerController;
-use App\Http\Controllers\UserSwaggerController;
+use App\Http\Controllers\API\UserSwaggerController;
 
 
 Route::get('/user', function (Request $request) {
@@ -21,9 +21,7 @@ Route::apiResource('category', CategoryController::class);
 Route::apiResource('items', ItemController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('transaction', TransactionController::class);
-Route::apiResource('categoryswagger', CategorySwaggerController::class);
-Route::apiResource('itemsswagger', ItemsSwaggerController::class);
-Route::apiResource('transactionsswagger', TransactionSwaggerController::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +35,12 @@ Route::apiResource('transactionsswagger', TransactionSwaggerController::class);
 */
 
 Route::group( [], function () {
-    Route::get('category', [CategorySwaggerController::class, 'listCategory']);
+    Route::get('/', [CategorySwaggerController::class, 'index']); // GET /api/category
+    Route::post('/', [CategorySwaggerController::class, 'store']); // POST /api/category
+    Route::get('/{id}', [CategorySwaggerController::class, 'show']); // GET /api/category/{id}
+    Route::put('/{id}', [CategorySwaggerController::class, 'update']); // PUT /api/category/{id}
+    Route::delete('/{id}', [CategorySwaggerController::class, 'destroy']); // DELETE /api/category/{id}
+    Route::get('/search', [CategorySwaggerController::class, 'search']); // GET /api/category/search?q=...
 });
 
 
@@ -56,6 +59,7 @@ Route::get('transactions-swagger/{id}', [TransactionSwaggerController::class, 's
 Route::put('transactions-swagger/{id}', [TransactionSwaggerController::class, 'update']);
 Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class, 'destroy']);
 Route::get('/transaction/user/{user_id}', [TransactionSwaggerController::class, 'getByUser']);
+Route::get('transaction', [TransactionSwaggerController::class, 'getAllData']);
 
 Route::get('users-swagger', [UserSwaggerController::class, 'index']);
 Route::post('users-swagger', [UserSwaggerController::class, 'store']);
