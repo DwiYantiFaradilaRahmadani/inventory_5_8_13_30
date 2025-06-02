@@ -26,6 +26,17 @@
                 ],
                 "summary": "Get all categories",
                 "operationId": "5a903d99b7e76225880d6ecc09e4d7fa",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query for category name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -301,67 +312,6 @@
                 }
             }
         },
-        "/category/search": {
-            "get": {
-                "tags": [
-                    "Category"
-                ],
-                "summary": "Search categories by name",
-                "operationId": "e51554e4a61dd70538764a077466642f",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "Search query for category name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Search results retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Search results retrieved successfully."
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Fiction"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Search query is required"
-                    }
-                }
-            }
-        },
         "/item": {
             "get": {
                 "tags": [
@@ -369,6 +319,17 @@
                 ],
                 "summary": "Get all items",
                 "operationId": "f19b7dc62e5b6fbb07ac4bacae6b6b0d",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query for item name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -627,57 +588,6 @@
                     },
                     "404": {
                         "description": "Item not found"
-                    }
-                }
-            }
-        },
-        "/item/search": {
-            "get": {
-                "tags": [
-                    "Item"
-                ],
-                "summary": "Search items by name",
-                "operationId": "141d53ad6eeaf81a4909fa3f164bde54",
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "Search query for Nama_Barang",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Search results retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Search results retrieved successfully."
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Item"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Search query is required"
                     }
                 }
             }
@@ -980,18 +890,42 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get all users",
+                "summary": "Get all users or search by name/email",
                 "operationId": "f290d11bd8e112f77455e3e869e1d536",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query for name or email",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "List of users",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User"
-                                    }
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Users retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -1011,6 +945,7 @@
                             "schema": {
                                 "required": [
                                     "name",
+                                    "username",
                                     "email",
                                     "password"
                                 ],
@@ -1018,6 +953,10 @@
                                     "name": {
                                         "type": "string",
                                         "example": "John Doe"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "johndoe123"
                                     },
                                     "email": {
                                         "type": "string",
@@ -1052,6 +991,12 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
             }
@@ -1192,49 +1137,19 @@
                     }
                 }
             }
-        },
-        "/users/search": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Search users by name or email",
-                "operationId": "ec4785b6e9c3902e04e1fbb881444ea2",
-                "parameters": [
-                    {
-                        "name": "query",
-                        "in": "query",
-                        "description": "Search term for name or email",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of users matching the search",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Query parameter is required"
-                    }
-                }
-            }
         }
     },
     "components": {
         "schemas": {
             "Item": {
+                "title": "Item",
+                "required": [
+                    "id",
+                    "category_id",
+                    "Nama_Barang",
+                    "Stock",
+                    "Satuan"
+                ],
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -1255,6 +1170,16 @@
                     "Satuan": {
                         "type": "string",
                         "example": "Unit"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-02T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-02T12:00:00Z"
                     }
                 },
                 "type": "object"

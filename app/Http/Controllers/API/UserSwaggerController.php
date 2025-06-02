@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Schema(
@@ -26,69 +27,113 @@ class UserSwaggerController extends Controller
      * @OA\Get(
      *     path="/users",
      *     tags={"Users"},
-     *     summary="Get all users",
-     *     @OA\Response(
-     *         response=200,
-     *         description="List of users",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User"))
-     *     )
-     * )
-     */
-    public function index()
-    {
-        return response()->json(User::all(), 200);
-    }
-
-    /**
-     * @OA\Post(
-     *     path="/users",
-     *     tags={"Users"},
-     *     summary="Create a new user",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name", "email", "password"},
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", example="john@example.com"),
-     *             @OA\Property(property="password", type="string", example="secret123")
-     *         )
+     *     summary="Get all users or search by name/email",
+     *     @OA\Parameter(
+     *         name="q",
+     *         in="query",
+     *         required=false,
+     *         description="Search query for name or email",
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
-     *         response=201,
-     *         description="User created",
+     *         response=200,
+     *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="User berhasil dibuat."),
-     *             @OA\Property(property="user", ref="#/components/schemas/User")
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Users retrieved successfully."),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/User")
+     *             )
      *         )
      *     )
      * )
      */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+        $query = $request->query('q');
+        Log::info("User search query: " . $query);
+
+        if ($query) {
+            $users = User::where('name', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->get();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Users retrieved successfully with query.',
+                'data' => $users
+            ], 200);
+        }
+
+        $users = User::all();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Users retrieved successfully.',
+            'data' => $users
+        ], 200);
+    }
+    /**
+ * @OA\Post(
+ *     path="/users",
+ *     tags={"Users"},
+ *     summary="Create a new user",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"name", "username", "email", "password"},
+ *             @OA\Property(property="name", type="string", example="John Doe"),
+ *             @OA\Property(property="username", type="string", example="johndoe123"),
+ *             @OA\Property(property="email", type="string", example="john@example.com"),
+ *             @OA\Property(property="password", type="string", example="secret123")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="User created",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="User berhasil dibuat."),
+ *             @OA\Property(property="user", ref="#/components/schemas/User")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation error"
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server error"
+ *     )
+ * )
+ */
+public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users,username',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:6',
+    ]);
+
+    try {
+        $user = User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
         ]);
 
-        try {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
-
-            return response()->json([
-                'message' => 'User berhasil dibuat.',
-                'user' => $user,
-            ], 201);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => 'Gagal membuat user.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'message' => 'User berhasil dibuat.',
+            'user' => $user,
+        ], 201);
+    } catch (QueryException $e) {
+        return response()->json([
+            'message' => 'Gagal membuat user.',
+            'error' => $e->getMessage(),
+        ], 500);
     }
+}
 
     /**
      * @OA\Get(
@@ -179,41 +224,5 @@ class UserSwaggerController extends Controller
         return response()->json(['message' => 'User berhasil dihapus'], 200);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/users/search",
-     *     tags={"Users"},
-     *     summary="Search users by name or email",
-     *     @OA\Parameter(
-     *         name="query",
-     *         in="query",
-     *         required=true,
-     *         description="Search term for name or email",
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="List of users matching the search",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User"))
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Query parameter is required"
-     *     )
-     * )
-     */
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-
-        if (!$query) {
-            return response()->json(['message' => 'Parameter query diperlukan.'], 400);
-        }
-
-        $users = User::where('name', 'like', '%' . $query . '%')
-            ->orWhere('email', 'like', '%' . $query . '%')
-            ->get();
-
-        return response()->json($users, 200);
-    }
+    
 }

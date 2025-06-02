@@ -8,19 +8,20 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\API\ItemsSwaggerController;
+
 use App\Http\Controllers\API\TransactionSwaggerController;
 use App\Http\Controllers\API\UserSwaggerController;
+use App\Http\Controllers\API\ItemsSwaggerController;
 
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('category', CategoryController::class);
-Route::apiResource('items', ItemController::class);
-Route::apiResource('users', UserController::class);
-Route::apiResource('transaction', TransactionController::class);
+Route::apiResource('category', CategorySwaggerController::class);
+Route::apiResource('item', ItemsSwaggerController::class);
+Route::apiResource('users', UserSwaggerController::class);
+Route::apiResource('transaction', TransactionSwaggerController::class);
 
 
 /*
@@ -34,24 +35,24 @@ Route::apiResource('transaction', TransactionController::class);
 |
 */
 
-Route::group( [], function () {
-    Route::get('/', [CategorySwaggerController::class, 'index']); // GET /api/category
-    Route::post('/', [CategorySwaggerController::class, 'store']); // POST /api/category
-    Route::get('/{id}', [CategorySwaggerController::class, 'show']); // GET /api/category/{id}
-    Route::put('/{id}', [CategorySwaggerController::class, 'update']); // PUT /api/category/{id}
-    Route::delete('/{id}', [CategorySwaggerController::class, 'destroy']); // DELETE /api/category/{id}
-    Route::get('/search', [CategorySwaggerController::class, 'search']); // GET /api/category/search?q=...
-});
+// Route::group( [], function () {
+//     Route::get('/', [CategorySwaggerController::class, 'index']); // GET /api/category
+//     Route::post('/', [CategorySwaggerController::class, 'store']); // POST /api/category
+//     Route::get('/{id}', [CategorySwaggerController::class, 'show']); // GET /api/category/{id}
+//     Route::put('/{id}', [CategorySwaggerController::class, 'update']); // PUT /api/category/{id}
+//     Route::delete('/{id}', [CategorySwaggerController::class, 'destroy']); // DELETE /api/category/{id}
+//     Route::get('/search', [CategorySwaggerController::class, 'search']); // GET /api/category/search?q=...
+// });
 
 
 
 
-Route::get('/item', [ItemsSwaggerController::class, 'index']);
-Route::post('/item', [ItemsSwaggerController::class, 'store']);
-Route::get('/item/{id}', [ItemsSwaggerController::class, 'show']);
-Route::put('/item/{id}', [ItemsSwaggerController::class, 'update']);
-Route::delete('/item/{id}', [ItemsSwaggerController::class, 'destroy']);
-Route::get('/item/search', [ItemsSwaggerController::class, 'search']);
+//Route::get('/item', [ItemsSwaggerController::class, 'index']);
+//Route::post('/item', [ItemsSwaggerController::class, 'store']);
+//Route::get('/item/{id}', [ItemsSwaggerController::class, 'show']);
+//Route::put('/item/{id}', [ItemsSwaggerController::class, 'update']);
+//Route::delete('/item/{id}', [ItemsSwaggerController::class, 'destroy']);
+//Route::get('/item/search', [ItemsSwaggerController::class, 'search']);
 
 Route::get('transactions-swagger', [TransactionSwaggerController::class, 'index']);
 Route::post('transactions-swagger', [TransactionSwaggerController::class, 'store']);
@@ -61,12 +62,12 @@ Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class,
 Route::get('/transaction/user/{user_id}', [TransactionSwaggerController::class, 'getByUser']);
 Route::get('transaction', [TransactionSwaggerController::class, 'getAllData']);
 
-Route::get('users-swagger', [UserSwaggerController::class, 'index']);
-Route::post('users-swagger', [UserSwaggerController::class, 'store']);
-Route::get('users-swagger/{id}', [UserSwaggerController::class, 'show']);
-Route::put('users-swagger/{id}', [UserSwaggerController::class, 'update']);
-Route::delete('users-swagger/{id}', [UserSwaggerController::class, 'destroy']);
-Route::get('/users/search', [UserSwaggerController::class, 'search']);
+//Route::get('users-swagger', [UserSwaggerController::class, 'index']);
+//Route::post('users-swagger', [UserSwaggerController::class, 'store']);
+//Route::get('users-swagger/{id}', [UserSwaggerController::class, 'show']);
+//Route::put('users-swagger/{id}', [UserSwaggerController::class, 'update']);
+//Route::delete('users-swagger/{id}', [UserSwaggerController::class, 'destroy']);
+//Route::get('/users/search', [UserSwaggerController::class, 'search']);
 
 // check auth
 //nambahin aja

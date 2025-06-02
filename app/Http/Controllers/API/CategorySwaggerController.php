@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 
 class CategorySwaggerController extends Controller
 {
@@ -13,6 +14,13 @@ class CategorySwaggerController extends Controller
  *     path="/category",
  *     tags={"Category"},
  *     summary="Get all categories",
+ *     @OA\Parameter(
+ *         name="q",
+ *         in="query",
+ *         required=false,
+ *         description="Search query for category name",
+ *         @OA\Schema(type="string")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Successful operation",
@@ -29,8 +37,20 @@ class CategorySwaggerController extends Controller
  *     )
  * )
  */
-public function index()
+public function index(Request $request)
 {
+    $query = $request->query('q');
+    Log::info("query fetched" . $query);
+    if ($query) {
+        $categories = Category::where('name', 'like', '%' . $query . '%')->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Categories results retrieved successfully with query.',
+            'data' => $categories
+        ], 200);
+    }
+
     $categories = Category::all();
 
     return response()->json([
@@ -250,26 +270,26 @@ public function index()
  *     @OA\Response(response=400, description="Search query is required")
  * )
  */
-public function search(Request $request)
-{
-    $query = $request->query('q');
+// public function search(Request $request)
+// {
+//     $query = $request->query('q');
 
-    if (!$query) {
-        return response()->json([
-            'status' => 400,
-            'message' => 'Search query is required.',
-            'data' => []
-        ], 400);
-    }
+//     if (!$query) {
+//         return response()->json([
+//             'status' => 400,
+//             'message' => 'Search query is required.',
+//             'data' => []
+//         ], 400);
+//     }
 
-    $categories = Category::where('name', 'like', '%' . $query . '%')->get();
+//     $categories = Category::where('name', 'like', '%' . $query . '%')->get();
 
-    return response()->json([
-        'status' => 200,
-        'message' => 'Search results retrieved successfully.',
-        'data' => $categories
-    ], 200);
-}
+//     return response()->json([
+//         'status' => 200,
+//         'message' => 'Search results retrieved successfully.',
+//         'data' => $categories
+//     ], 200);
+// }
 
 }
 

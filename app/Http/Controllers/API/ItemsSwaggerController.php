@@ -5,16 +5,21 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Schema(
  *     schema="Item",
  *     type="object",
+ *     title="Item",
+ *     required={"id", "category_id", "Nama_Barang", "Stock", "Satuan"},
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="category_id", type="integer", example=2),
  *     @OA\Property(property="Nama_Barang", type="string", example="Laptop"),
  *     @OA\Property(property="Stock", type="integer", example=50),
- *     @OA\Property(property="Satuan", type="string", example="Unit")
+ *     @OA\Property(property="Satuan", type="string", example="Unit"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", example="2025-06-02T12:00:00Z"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-06-02T12:00:00Z")
  * )
  */
 class ItemsSwaggerController extends Controller
@@ -24,6 +29,13 @@ class ItemsSwaggerController extends Controller
      *     path="/item",
      *     tags={"Item"},
      *     summary="Get all items",
+     *     @OA\Parameter(
+     *         name="q",
+     *         in="query",
+     *         required=false,
+     *         description="Search query for item name",
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -37,8 +49,21 @@ class ItemsSwaggerController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->query('q');
+        Log::info("query fetched: " . $query);
+
+        if ($query) {
+            $items = Item::where('Nama_Barang', 'like', '%' . $query . '%')->get();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Items retrieved successfully with query.',
+                'data' => $items
+            ], 200);
+        }
+
         $items = Item::all();
 
         return response()->json([
@@ -76,14 +101,14 @@ class ItemsSwaggerController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'Nama_Barang' => 'required|string|max:255',
             'Stock' => 'required|integer|min:0',
             'Satuan' => 'required|string|max:100'
         ]);
 
-        $item = Item::create($request->all());
+        $item = Item::create($validated);
 
         return response()->json([
             'status' => 201,
@@ -178,14 +203,14 @@ class ItemsSwaggerController extends Controller
             ], 404);
         }
 
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'Nama_Barang' => 'string|max:255',
-            'Stock' => 'integer|min:0',
-            'Satuan' => 'string|max:100'
+        $validated = $request->validate([
+            'category_id' => 'sometimes|required|exists:categories,id',
+            'Nama_Barang' => 'sometimes|string|max:255',
+            'Stock' => 'sometimes|integer|min:0',
+            'Satuan' => 'sometimes|string|max:100'
         ]);
 
-        $item->update($request->all());
+        $item->update($validated);
 
         return response()->json([
             'status' => 200,
@@ -235,53 +260,6 @@ class ItemsSwaggerController extends Controller
             'status' => 200,
             'message' => 'Item deleted successfully.',
             'data' => null
-        ], 200);
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/item/search",
-     *     tags={"Item"},
-     *     summary="Search items by name",
-     *     @OA\Parameter(
-     *         name="q",
-     *         in="query",
-     *         required=true,
-     *         description="Search query for Nama_Barang",
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Search results retrieved successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example=200),
-     *             @OA\Property(property="message", type="string", example="Search results retrieved successfully."),
-     *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(ref="#/components/schemas/Item")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(response=400, description="Search query is required")
-     * )
-     */
-    public function search(Request $request)
-    {
-        $query = $request->query('q');
-
-        if (!$query) {
-            return response()->json([
-                'status' => 400,
-                'message' => 'Search query is required.',
-                'data' => []
-            ], 400);
-        }
-
-        $items = Item::where('Nama_Barang', 'like', '%' . $query . '%')->get();
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Search results retrieved successfully.',
-            'data' => $items
         ], 200);
     }
 }
