@@ -170,6 +170,17 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+                'bearerAuth' => [ // Unique name of security
+                    'type' => 'http',
+                    'description' => 'Bearer token authentication using Laravel Sanctum',
+                    'scheme' => 'bearer',
+                    'bearerFormat' => 'JWT',
+                ],
+                'security' => [
+                    [
+                        'sanctum' => []
+                    ],
+                ],
                 /*
                  * Examples of Security schemes
                  */

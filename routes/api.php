@@ -12,6 +12,9 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\API\TransactionSwaggerController;
 use App\Http\Controllers\API\UserSwaggerController;
 use App\Http\Controllers\API\ItemsSwaggerController;
+use App\Http\Controllers\Auth\RegisterSwaggerController;
+use App\Http\Controllers\Auth\LoginSwaggerController;
+use App\Http\Controllers\Auth\LogoutSwaggerController;
 
 
 Route::get('/user', function (Request $request) {
@@ -34,6 +37,12 @@ Route::apiResource('transaction', TransactionSwaggerController::class);
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
+Route::post('/register', RegisterSwaggerController::class);
+Route::post('/login', LoginSwaggerController::class);
+Route::post('/logout', LogoutSwaggerController::class)->middleware('auth:sanctum');
+
 
 // Route::group( [], function () {
 //     Route::get('/', [CategorySwaggerController::class, 'index']); // GET /api/category

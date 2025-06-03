@@ -64,6 +64,7 @@ public function index(Request $request)
      * @OA\Post(
      *     path="/category",
      *     tags={"Category"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Create a new category",
      *     @OA\RequestBody(
      *         required=true,
@@ -103,6 +104,7 @@ public function index(Request $request)
      * @OA\Get(
      *     path="/category/{id}",
      *     tags={"Category"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Get category by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -148,6 +150,7 @@ public function index(Request $request)
      * @OA\Put(
      *     path="/category/{id}",
      *     tags={"Category"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Update category by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -202,6 +205,7 @@ public function index(Request $request)
      * @OA\Delete(
      *     path="/category/{id}",
      *     tags={"Category"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Delete category by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -245,6 +249,7 @@ public function index(Request $request)
  * @OA\Get(
  *     path="/category/search",
  *     tags={"Category"},
+ *     security={{"bearerAuth":{}}},
  *     summary="Search categories by name",
  *     @OA\Parameter(
  *         name="q",

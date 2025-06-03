@@ -77,6 +77,7 @@ class ItemsSwaggerController extends Controller
      * @OA\Post(
      *     path="/item",
      *     tags={"Item"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Create a new item",
      *     @OA\RequestBody(
      *         required=true,
@@ -121,6 +122,7 @@ class ItemsSwaggerController extends Controller
      * @OA\Get(
      *     path="/item/{id}",
      *     tags={"Item"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Get item by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -163,6 +165,7 @@ class ItemsSwaggerController extends Controller
      * @OA\Put(
      *     path="/item/{id}",
      *     tags={"Item"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Update item by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -223,6 +226,7 @@ class ItemsSwaggerController extends Controller
      * @OA\Delete(
      *     path="/item/{id}",
      *     tags={"Item"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Delete item by ID",
      *     @OA\Parameter(
      *         name="id",
@@ -262,4 +266,35 @@ class ItemsSwaggerController extends Controller
             'data' => null
         ], 200);
     }
+
+        /**
+     * @OA\Get(
+     *     path="/item/low-stock",
+     *     tags={"Item"},
+     * *     security={{"bearerAuth":{}}},
+     *     summary="Get items with low stock (less than 10)",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Low stock items retrieved successfully.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="message", type="string", example="Low stock items retrieved successfully."),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/Item")
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function lowStock()
+    {
+        $items = Item::where('Stock', '<', 10)->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Low stock items retrieved successfully.',
+            'data' => $items
+        ], 200);
+    }
+
 }

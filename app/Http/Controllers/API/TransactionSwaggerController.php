@@ -60,6 +60,7 @@ class TransactionSwaggerController extends Controller
      * @OA\Get(
      *     path="/transaction/user/{user_id}",
      *     tags={"Transaction"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Get transactions by user ID",
      *     @OA\Parameter(
      *         name="user_id",
@@ -96,6 +97,7 @@ class TransactionSwaggerController extends Controller
      * @OA\Post(
      *     path="/transaction",
      *     tags={"Transaction"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Create a new transaction",
      *     @OA\RequestBody(
      *         required=true,
@@ -164,6 +166,7 @@ class TransactionSwaggerController extends Controller
      * @OA\Get(
      *     path="/transaction/{id}",
      *     tags={"Transaction"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Get transaction by ID",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(
@@ -189,6 +192,7 @@ class TransactionSwaggerController extends Controller
      * @OA\Put(
      *     path="/transaction/{id}",
      *     tags={"Transaction"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Update transaction by ID",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(
@@ -267,6 +271,7 @@ class TransactionSwaggerController extends Controller
      * @OA\Delete(
      *     path="/transaction/{id}",
      *     tags={"Transaction"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Delete transaction by ID",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(
