@@ -74,7 +74,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -377,7 +382,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -623,48 +633,6 @@
                     },
                     "404": {
                         "description": "Item not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/item/low-stock": {
-            "get": {
-                "tags": [
-                    "Item"
-                ],
-                "summary": "Get items with low stock (less than 10)",
-                "operationId": "7f036f2ad723c4e766ca502646d4cfd9",
-                "responses": {
-                    "200": {
-                        "description": "Low stock items retrieved successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 200
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Low stock items retrieved successfully."
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Item"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [
@@ -1037,7 +1005,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1294,7 +1267,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Successfully Logout"
+                                            "example": "Successfully logged out"
                                         }
                                     },
                                     "type": "object"

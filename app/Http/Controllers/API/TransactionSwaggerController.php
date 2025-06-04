@@ -28,6 +28,7 @@ class TransactionSwaggerController extends Controller
      * @OA\Get(
      *     path="/transaction",
      *     tags={"Transaction"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Get all transactions",
      *     @OA\Response(
      *         response=200,

@@ -5,6 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+/**
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ *     description="Gunakan format 'Bearer {token}'"
+ * )
+ */
 
 class LoginSwaggerController extends Controller
 {
@@ -34,21 +43,26 @@ class LoginSwaggerController extends Controller
      *     )
      * )
      */
-    public function __invoke(Request $request)
-    {
-        $credentials = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
-        ]);
+   public function __invoke(Request $request)
+{
+    $credentials = $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Email atau password salah'], 401);
-        }
-
-        $user = Auth::user(); // Sudah otomatis User model
-
-        return response()->json([
-            'token' => $user->createToken('inventory-token')->plainTextToken
-        ]);
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Email atau password salah'], 401);
     }
+
+    $user = Auth::user();
+    $token = $user->createToken('inventory-token')->plainTextToken;
+
+    return response()->json([
+        'message' => 'Login berhasil',
+        'user' => $user,
+        'token' => $token,
+    ]);
 }
+
+}
+

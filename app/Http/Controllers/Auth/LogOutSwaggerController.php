@@ -17,7 +17,7 @@ class LogoutSwaggerController extends Controller
      *         response=200,
      *         description="Berhasil logout",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Successfully Logout")
+     *             @OA\Property(property="message", type="string", example="Successfully logged out")
      *         )
      *     ),
      *     @OA\Response(
@@ -28,8 +28,18 @@ class LogoutSwaggerController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // Cek apakah token ada (valid token dari user yang sedang login)
+        if ($request->user() && $request->user()->currentAccessToken()) {
+            $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Successfully Logout']);
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ]);
+        }
+
+        // Kalau token tidak valid atau user tidak ditemukan
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
     }
 }

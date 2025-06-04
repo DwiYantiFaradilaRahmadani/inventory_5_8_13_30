@@ -32,6 +32,7 @@ class UserSwaggerController extends Controller
      * @OA\Get(
      *     path="/users",
      *     tags={"Users"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Get all users or search by name/email",
      *     @OA\Parameter(
      *         name="q",

@@ -1,82 +1,58 @@
 <?php
 
-
-use App\Http\Controllers\API\CategorySwaggerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\TransactionController;
 
+use App\Http\Controllers\API\CategorySwaggerController;
 use App\Http\Controllers\API\TransactionSwaggerController;
 use App\Http\Controllers\API\UserSwaggerController;
 use App\Http\Controllers\API\ItemsSwaggerController;
+
 use App\Http\Controllers\Auth\RegisterSwaggerController;
 use App\Http\Controllers\Auth\LoginSwaggerController;
 use App\Http\Controllers\Auth\LogoutSwaggerController;
-
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-Route::apiResource('category', CategorySwaggerController::class);
-Route::apiResource('item', ItemsSwaggerController::class);
-Route::apiResource('users', UserSwaggerController::class);
-Route::apiResource('transaction', TransactionSwaggerController::class);
-
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| Semua endpoint yang berhubungan dengan data penting diproteksi 
+| menggunakan middleware 'auth:sanctum'. Hanya register & login 
+| yang bisa diakses tanpa token. Setelah login, user mendapatkan 
+| token untuk mengakses API. Saat logout, token dihapus.
 |
 */
 
-
+// Endpoint bebas diakses
 Route::post('/register', RegisterSwaggerController::class);
 Route::post('/login', LoginSwaggerController::class);
-Route::post('/logout', LogoutSwaggerController::class)->middleware('auth:sanctum');
+
+// Semua route yang membutuhkan login
+Route::middleware('auth:sanctum')->group(function () {
+    
+    // Get data user yang sedang login
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Logout (hapus token)
+    Route::post('/logout', LogoutSwaggerController::class)->middleware('auth:sanctum');
 
 
-// Route::group( [], function () {
-//     Route::get('/', [CategorySwaggerController::class, 'index']); // GET /api/category
-//     Route::post('/', [CategorySwaggerController::class, 'store']); // POST /api/category
-//     Route::get('/{id}', [CategorySwaggerController::class, 'show']); // GET /api/category/{id}
-//     Route::put('/{id}', [CategorySwaggerController::class, 'update']); // PUT /api/category/{id}
-//     Route::delete('/{id}', [CategorySwaggerController::class, 'destroy']); // DELETE /api/category/{id}
-//     Route::get('/search', [CategorySwaggerController::class, 'search']); // GET /api/category/search?q=...
-// });
+    // API Resource (CRUD) dengan proteksi token
+    Route::apiResource('category', CategorySwaggerController::class);
+    Route::apiResource('item', ItemsSwaggerController::class);
+    Route::apiResource('users', UserSwaggerController::class);
+    Route::apiResource('transaction', TransactionSwaggerController::class);
 
+    // Tambahan route manual yang juga diproteksi
+    Route::get('transactions-swagger', [TransactionSwaggerController::class, 'index']);
+    Route::post('transactions-swagger', [TransactionSwaggerController::class, 'store']);
+    Route::get('transactions-swagger/{id}', [TransactionSwaggerController::class, 'show']);
+    Route::put('transactions-swagger/{id}', [TransactionSwaggerController::class, 'update']);
+    Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class, 'destroy']);
 
-
-
-//Route::get('/item', [ItemsSwaggerController::class, 'index']);
-//Route::post('/item', [ItemsSwaggerController::class, 'store']);
-//Route::get('/item/{id}', [ItemsSwaggerController::class, 'show']);
-//Route::put('/item/{id}', [ItemsSwaggerController::class, 'update']);
-//Route::delete('/item/{id}', [ItemsSwaggerController::class, 'destroy']);
-//Route::get('/item/search', [ItemsSwaggerController::class, 'search']);
-
-Route::get('transactions-swagger', [TransactionSwaggerController::class, 'index']);
-Route::post('transactions-swagger', [TransactionSwaggerController::class, 'store']);
-Route::get('transactions-swagger/{id}', [TransactionSwaggerController::class, 'show']);
-Route::put('transactions-swagger/{id}', [TransactionSwaggerController::class, 'update']);
-Route::delete('transactions-swagger/{id}', [TransactionSwaggerController::class, 'destroy']);
-Route::get('/transaction/user/{user_id}', [TransactionSwaggerController::class, 'getByUser']);
-Route::get('transaction', [TransactionSwaggerController::class, 'getAllData']);
-
-//Route::get('users-swagger', [UserSwaggerController::class, 'index']);
-//Route::post('users-swagger', [UserSwaggerController::class, 'store']);
-//Route::get('users-swagger/{id}', [UserSwaggerController::class, 'show']);
-//Route::put('users-swagger/{id}', [UserSwaggerController::class, 'update']);
-//Route::delete('users-swagger/{id}', [UserSwaggerController::class, 'destroy']);
-//Route::get('/users/search', [UserSwaggerController::class, 'search']);
-
-// check auth
-//nambahin aja
+    Route::get('/transaction/user/{user_id}', [TransactionSwaggerController::class, 'getByUser']);
+    Route::get('transaction', [TransactionSwaggerController::class, 'getAllData']);
+});

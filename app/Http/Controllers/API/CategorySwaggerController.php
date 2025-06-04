@@ -13,6 +13,7 @@ class CategorySwaggerController extends Controller
  * @OA\Get(
  *     path="/category",
  *     tags={"Category"},
+ *     security={{"bearerAuth":{}}},
  *     summary="Get all categories",
  *     @OA\Parameter(
  *         name="q",

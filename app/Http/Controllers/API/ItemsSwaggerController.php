@@ -28,6 +28,7 @@ class ItemsSwaggerController extends Controller
      * @OA\Get(
      *     path="/item",
      *     tags={"Item"},
+     *     security={{"bearerAuth":{}}},
      *     summary="Get all items",
      *     @OA\Parameter(
      *         name="q",
